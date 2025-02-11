@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
@@ -18,14 +18,16 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "larastan/larastan": "3.0",
         "laravel/breeze": "^2.3",
         "laravel/pail": "^1.1",
-        "laravel/pint": "^1.13",
+        "laravel/pint": "^1.20",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
         "pestphp/pest": "^3.7",
-        "pestphp/pest-plugin-laravel": "^3.1"
+        "pestphp/pest-plugin-laravel": "^3.1",
+        "rector/rector": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -58,6 +60,18 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names='server,queue,vite'"
+        ],
+        "lint": "pint",
+        "refactor": "rector",
+        "test:unit": "pest --parallel",
+        "test:lint": "pint --test",
+        "test:refactor": "rector --dry-run",
+        "test:types": "phpstan",
+        "test": [
+            "@test:unit",
+            "@test:lint",
+            "@test:refactor",
+            "@test:types"
         ]
     },
     "extra": {
