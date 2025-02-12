@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Override;
 
 class AuthUserResource extends JsonResource
 {
@@ -16,7 +17,7 @@ class AuthUserResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    #[\Override]
+    #[Override]
     public function toArray(Request $request): array
     {
         return [
@@ -24,7 +25,7 @@ class AuthUserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
-            'permissions' => $this->getAllPermissions()->map(fn($permission) => $permission->name),
+            'permissions' => $this->getAllPermissions()->map(fn ($permission) => $permission->name),
             'roles' => $this->getRoleNames(),
         ];
     }
