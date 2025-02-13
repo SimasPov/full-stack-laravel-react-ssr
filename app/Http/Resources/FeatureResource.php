@@ -10,6 +10,8 @@ use Override;
 
 class FeatureResource extends JsonResource
 {
+    public static $wrap = false;
+
     /**
      * Transform the resource into an array.
      *

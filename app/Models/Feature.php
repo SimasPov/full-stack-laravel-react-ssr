@@ -13,6 +13,8 @@ class Feature extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'description', 'user_id'];
+
     public function user(): BelongsTo
     {
         return $this->BelongsTo(User::class);

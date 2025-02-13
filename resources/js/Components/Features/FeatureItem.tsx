@@ -1,4 +1,5 @@
 import { Feature } from '@/types';
+import { Link } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function FeatureItem({ feature }: { feature: Feature }) {
@@ -37,11 +38,19 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                     </button>
                 </div>
                 <div className="flex-1">
-                    <h2 className="mb-2 text-2xl">{feature.name}</h2>
-                    <p>{isExpanded ? feature.description : `${feature.description.slice(0, 200)}`}...</p>
-                    <button onClick={toggleReadMore} className="text-amber-500 hover:underline">
-                        {isExpanded ? 'Read Less' : 'Read More'}
-                    </button>
+                    <h2 className="mb-2 text-2xl">
+                        <Link href={route('feature.show', feature.id)} className="hover:text-indigo-400">
+                            {feature.name}
+                        </Link>
+                    </h2>
+                    {(feature.description?.length > 200 && (
+                        <>
+                            <p>{isExpanded ? feature.description : `${feature.description.slice(0, 200)}`}...</p>
+                            <button onClick={toggleReadMore} className="text-amber-500 hover:underline">
+                                {isExpanded ? 'Read Less' : 'Read More'}
+                            </button>
+                        </>
+                    )) || <p>{feature.description}</p>}
                 </div>
             </div>
         </div>

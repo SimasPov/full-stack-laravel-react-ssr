@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\FeatureResource;
 use App\Models\Feature;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -25,31 +26,39 @@ class FeatureController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): void
+    public function create(): Response
     {
-        //
+        return Inertia::render('Feature/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): void
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $data = $request->validate([
+            'name' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+        ]);
+        $data['user_id'] = auth()->id();
+
+        Feature::create($data);
+
+        return to_route('feature.index')->with('success', 'Feature created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Feature $feature): void
+    public function show(Feature $feature): Response
     {
-        //
+        return Inertia::render('Feature/Show', ['feature' => new FeatureResource($feature)]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Feature $feature): void
+    public function edit(Feature $feature): Void
     {
         //
     }
@@ -57,7 +66,7 @@ class FeatureController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Feature $feature): void
+    public function update(Request $request, Feature $feature): Void
     {
         //
     }
@@ -65,7 +74,7 @@ class FeatureController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Feature $feature): void
+    public function destroy(Feature $feature): Void
     {
         //
     }

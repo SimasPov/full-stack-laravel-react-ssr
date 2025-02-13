@@ -26,7 +26,7 @@ export default function Authenticated({ header, children }: PropsWithChildren<{ 
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
-                                <NavLink href={route('features.index')} active={route().current('features.index')}>
+                                <NavLink href={route('feature.index')} active={route().current('feature.index')}>
                                     Features
                                 </NavLink>
                             </div>
@@ -100,7 +100,7 @@ export default function Authenticated({ header, children }: PropsWithChildren<{ 
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('features.index')} active={route().current('features.index')}>
+                        <ResponsiveNavLink href={route('feature.index')} active={route().current('feature.index')}>
                             Features
                         </ResponsiveNavLink>
                     </div>
