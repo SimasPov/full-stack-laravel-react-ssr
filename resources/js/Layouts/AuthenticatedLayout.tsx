@@ -26,6 +26,9 @@ export default function Authenticated({ header, children }: PropsWithChildren<{ 
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
+                                <NavLink href={route('features.index')} active={route().current('features.index')}>
+                                    Features
+                                </NavLink>
                             </div>
                         </div>
 
@@ -97,6 +100,9 @@ export default function Authenticated({ header, children }: PropsWithChildren<{ 
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('features.index')} active={route().current('features.index')}>
+                            Features
+                        </ResponsiveNavLink>
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600">
@@ -120,8 +126,11 @@ export default function Authenticated({ header, children }: PropsWithChildren<{ 
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">{header}</div>
                 </header>
             )}
-
-            <main>{children}</main>
+            <div className="py-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <main>{children}</main>
+                </div>
+            </div>
         </div>
     );
 }
