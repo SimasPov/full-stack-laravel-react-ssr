@@ -1,5 +1,5 @@
-import FeatureActionDropdown from '@/Components/Features/FeatureActionDropdown';
-import FeatureUpvoteDownvote from '@/Components/Features/FeatureUpvoteDownvote';
+import FeatureActionDropdown from '@/Components/Feature/FeatureActionDropdown';
+import FeatureUpvoteDownvote from '@/Components/Feature/FeatureUpvoteDownvote';
 import { Feature } from '@/types';
 import { Link } from '@inertiajs/react';
 import { useState } from 'react';

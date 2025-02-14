@@ -1,4 +1,4 @@
-import FeatureItem from '@/Components/Features/FeatureItem';
+import FeatureItem from '@/Components/Feature/FeatureItem';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Feature, PaginatedData } from '@/types';
 import { Head, Link } from '@inertiajs/react';

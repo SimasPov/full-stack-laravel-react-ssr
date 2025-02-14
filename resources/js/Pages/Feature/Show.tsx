@@ -1,4 +1,4 @@
-import FeatureUpvoteDownvote from '@/Components/Features/FeatureUpvoteDownvote';
+import FeatureUpvoteDownvote from '@/Components/Feature/FeatureUpvoteDownvote';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Feature } from '@/types';
 import { Head } from '@inertiajs/react';
