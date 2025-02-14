@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UpvoteController;
@@ -24,6 +25,9 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/feature/{feature}/upvote', [UpvoteController::class, 'store'])->name('upvote.store');
         Route::delete('/upvote/{feature}', [UpvoteController::class, 'destroy'])->name('upvote.destroy');
+
+        Route::post('/feature/{feature}/comments', [CommentController::class, 'store'])->name('comment.store');
+        Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
     });
 });
 

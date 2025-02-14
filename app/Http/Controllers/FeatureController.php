@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FeatureListResource;
 use App\Http\Resources\FeatureResource;
 use App\Models\Feature;
 use App\Models\Upvote;
@@ -37,7 +38,7 @@ class FeatureController extends Controller
             ->latest()
             ->paginate(10);
 
-        return Inertia::render('Feature/Index', ['features' => FeatureResource::collection($paginated)]);
+        return Inertia::render('Feature/Index', ['features' => FeatureListResource::collection($paginated)]);
     }
 
     /**
@@ -80,6 +81,7 @@ class FeatureController extends Controller
             ->where('user_id', '=', auth()->id())
             ->where('upvote', '=', 0)
             ->exists();
+        $feature->load('comments.user');
 
         return Inertia::render('Feature/Show', ['feature' => new FeatureResource($feature)]);
     }

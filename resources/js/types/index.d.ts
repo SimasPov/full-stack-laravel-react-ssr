@@ -14,6 +14,13 @@ export type PaginatedData = {
     links: Record<string, string>;
 };
 
+export type Comment = {
+    id: number;
+    comment: string;
+    created_at: string;
+    user: User;
+};
+
 export interface Feature {
     id: number;
     name: string;
@@ -23,6 +30,7 @@ export interface Feature {
     upvote_count: number;
     user_has_upvoted: boolean;
     user_has_downvoted: boolean;
+    comments: Comment[];
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
