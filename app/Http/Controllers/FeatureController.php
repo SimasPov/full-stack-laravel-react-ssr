@@ -58,24 +58,33 @@ class FeatureController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Feature $feature): Void
+    public function edit(Feature $feature): Response
     {
-        //
+        return Inertia::render('Feature/Edit', ['feature' => new FeatureResource($feature)]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Feature $feature): Void
+    public function update(Request $request, Feature $feature): RedirectResponse
     {
-        //
+        $data = $request->validate([
+            'name' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        $feature->update($data);
+
+        return to_route('feature.index')->with('success', 'Feature updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Feature $feature): Void
+    public function destroy(Feature $feature): RedirectResponse
     {
-        //
+        $feature->delete();
+
+        return to_route('feature.index')->with('success', 'Feature deleted successfully.');
     }
 }
