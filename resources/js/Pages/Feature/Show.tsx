@@ -1,11 +1,13 @@
 import CommentItem from '@/Components/Comment/CommentItem';
 import NewCommentForm from '@/Components/Comment/NewCommentForm';
 import FeatureUpvoteDownvote from '@/Components/Feature/FeatureUpvoteDownvote';
+import { can } from '@/helpers';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Comment, Feature } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 export default function Show({ feature }: { feature: Feature }) {
+    const user = usePage().props.auth.user;
     return (
         <AuthenticatedLayout>
             <Head title={'Feature: ' + feature.name} />
@@ -16,7 +18,11 @@ export default function Show({ feature }: { feature: Feature }) {
                         <h2 className="mb-2 text-2xl">{feature.name}</h2>
                         <p>{feature.description}</p>
                         <div className="mt-8">
-                            <NewCommentForm feature={feature} />
+                            {(!can(user, 'manage_comments') && (
+                                <div className="mb-2 text-center text-gray-700">
+                                    <p>You do not have permission to comment</p>
+                                </div>
+                            )) || <NewCommentForm feature={feature} />}
                             {feature.comments.map((comment: Comment) => (
                                 <CommentItem comment={comment} key={comment.id} />
                             ))}
