@@ -8,6 +8,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UpvoteController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,7 +19,20 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::middleware(['verified', 'role:'.UserRole::User->value])->group(function () {
+    Route::middleware(['verified', 'role:'.UserRole::Admin->value])->group(function () {
+        Route::get('/user', [UserController::class, 'index'])->name('user.index');
+        Route::get('/user/{user}', [UserController::class, 'edit'])->name('user.edit');
+        Route::patch('/user/{user}', [UserController::class, 'update'])->name('user.update');
+    });
+
+    Route::middleware([
+        'verified',
+        sprintf('role:%s|%s|%s',
+            UserRole::Admin->value,
+            UserRole::User->value,
+            UserRole::Commenter->value
+        ),
+    ])->group(function () {
         Route::get('/dashboard', function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');

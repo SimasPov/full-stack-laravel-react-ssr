@@ -25,6 +25,7 @@ class AuthUserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'permissions' => $this->getAllPermissions()->map(fn ($permission) => $permission->name),
             'roles' => $this->getRoleNames(),
         ];
