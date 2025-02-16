@@ -10,6 +10,7 @@ use App\Models\Feature;
 use App\Models\Upvote;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -37,8 +38,10 @@ class FeatureController extends Controller
             ])
             ->latest()
             ->paginate(10);
-
-        return Inertia::render('Feature/Index', ['features' => FeatureListResource::collection($paginated)]);
+        return Inertia::render('Feature/Index', [
+            'features' => Inertia::merge(FeatureListResource::collection($paginated)->collection->toArray()),
+            'pagination' => Arr::except($paginated->toArray(), 'data'),
+        ]);
     }
 
     /**

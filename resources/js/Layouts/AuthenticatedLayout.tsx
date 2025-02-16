@@ -25,14 +25,14 @@ export default function Authenticated({ header, children }: PropsWithChildren<{ 
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                <NavLink href={route('dashboard')} active={route().current('dashboard')} prefetch>
                                     Dashboard
                                 </NavLink>
-                                <NavLink href={route('feature.index')} active={route().current('feature.index')}>
+                                <NavLink href={route('feature.index')} active={route().current('feature.index')} prefetch>
                                     Features
                                 </NavLink>
                                 {can(user, 'manage_users') && (
-                                    <NavLink href={route('user.index')} active={route().current('user.index')}>
+                                    <NavLink href={route('user.index')} active={route().current('user.index')} prefetch>
                                         Users
                                     </NavLink>
                                 )}
@@ -104,14 +104,14 @@ export default function Authenticated({ header, children }: PropsWithChildren<{ 
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                        <ResponsiveNavLink prefetch href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('feature.index')} active={route().current('feature.index')}>
+                        <ResponsiveNavLink prefetch href={route('feature.index')} active={route().current('feature.index')}>
                             Features
                         </ResponsiveNavLink>
                         {can(user, 'manage_users') && (
-                            <ResponsiveNavLink href={route('user.index')} active={route().current('user.index')}>
+                            <ResponsiveNavLink prefetch href={route('user.index')} active={route().current('user.index')}>
                                 Users
                             </ResponsiveNavLink>
                         )}
