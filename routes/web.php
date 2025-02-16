@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\PermissionType;
+use App\Enums\UserRole;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
@@ -17,7 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::middleware(['verified'])->group(function () {
+    Route::middleware(['verified', 'role:'.UserRole::User->value])->group(function () {
         Route::get('/dashboard', function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');
