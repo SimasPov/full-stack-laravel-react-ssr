@@ -1,7 +1,17 @@
 import Dropdown from '@/Components/Dropdown';
 import { Feature } from '@/types';
+import { useForm } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
 
 export default function FeatureActionDropdown({ feature }: { feature: Feature }) {
+    const { delete: destroy, processing } = useForm({});
+    const deleteMessage = 'Are you sure you want to delete this feature?';
+    const deleteFeature: FormEventHandler = (e) => {
+        e.preventDefault();
+        if (confirm(deleteMessage)) {
+            destroy(route('feature.destroy', feature.id), { preserveScroll: true });
+        }
+    };
     return (
         <Dropdown>
             <Dropdown.Trigger>
@@ -30,7 +40,7 @@ export default function FeatureActionDropdown({ feature }: { feature: Feature })
 
             <Dropdown.Content>
                 <Dropdown.Link href={route('feature.edit', feature.id)}>Edit Feature</Dropdown.Link>
-                <Dropdown.Link href={route('feature.destroy', feature.id)} method="delete">
+                <Dropdown.Link className="disabled:cursor-not-allowed" href={''} onClick={deleteFeature} disabled={processing} method="delete">
                     Delete Feature
                 </Dropdown.Link>
             </Dropdown.Content>
