@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FeatureEditResource;
 use App\Http\Resources\FeatureListResource;
 use App\Http\Resources\FeatureResource;
 use App\Models\Feature;
@@ -38,6 +39,7 @@ class FeatureController extends Controller
             ])
             ->latest()
             ->paginate(10);
+
         return Inertia::render('Feature/Index', [
             'features' => Inertia::merge(FeatureListResource::collection($paginated)->collection->toArray()),
             'pagination' => Arr::except($paginated->toArray(), 'data'),
@@ -94,7 +96,7 @@ class FeatureController extends Controller
      */
     public function edit(Feature $feature): Response
     {
-        return Inertia::render('Feature/Edit', ['feature' => new FeatureResource($feature)]);
+        return Inertia::render('Feature/Edit', ['feature' => new FeatureEditResource($feature)]);
     }
 
     /**
