@@ -5,6 +5,10 @@ import { can } from '@/helpers';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Comment, Feature } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 export default function Show({ feature }: { feature: Feature }) {
     const user = usePage().props.auth.user;
@@ -17,7 +21,10 @@ export default function Show({ feature }: { feature: Feature }) {
                     <div className="flex-1">
                         <h2 className="mb-2 text-2xl">{feature.name}</h2>
                         <p>{feature.description}</p>
-                        <div className="mt-8">
+                        <p title={feature.created_at} className="mt-2 text-xs text-gray-500">
+                            {dayjs(feature.created_at).fromNow()}
+                        </p>
+                        <div className="mt-6">
                             {(!can(user, 'manage_comments') && (
                                 <div className="mb-2 text-center text-gray-700">
                                     <p>You do not have permission to comment</p>

@@ -1,6 +1,10 @@
 import { can } from '@/helpers';
 import { Comment } from '@/types';
 import { useForm, usePage } from '@inertiajs/react';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 export default function CommentItem({ comment }: { comment: Comment }) {
     const form = useForm();
@@ -22,7 +26,9 @@ export default function CommentItem({ comment }: { comment: Comment }) {
             <div className="flex-1">
                 <h3 className="mt-1 font-bold">
                     {comment.user.name}
-                    <span className="ml-4 text-xs text-gray-500">{comment.created_at}</span>
+                    <span title={comment.created_at} className="ml-4 text-xs text-gray-500">
+                        {dayjs(comment.created_at).fromNow()}
+                    </span>
                 </h3>
                 <div className="mt-1 italic">{comment.comment}</div>
             </div>
