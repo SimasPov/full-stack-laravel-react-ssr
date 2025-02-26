@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FeatureRequest;
 use App\Http\Resources\FeatureEditResource;
 use App\Http\Resources\FeatureListResource;
 use App\Http\Resources\FeatureResource;
 use App\Models\Feature;
 use App\Models\Upvote;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -23,18 +23,16 @@ class FeatureController extends Controller
      */
     public function index(): Response
     {
-        $currentUserId = auth()->id();
-
         $paginated = Feature::with('user')
             ->withCount(['upvotes as upvote_count' => function ($query): void {
                 $query->select(DB::raw('SUM(CASE WHEN upvote = 1 THEN 1 ELSE -1 END)'));
             }])
             ->withExists([
-                'upvotes as user_has_upvoted' => function ($query) use ($currentUserId): void {
-                    $query->where('user_id', '=', $currentUserId)->where('upvote', '=', 1);
+                'upvotes as user_has_upvoted' => function ($query): void {
+                    $query->where('user_id', '=', auth()->id())->where('upvote', '=', 1);
                 },
-                'upvotes as user_has_downvoted' => function ($query) use ($currentUserId): void {
-                    $query->where('user_id', '=', $currentUserId)->where('upvote', '=', 0);
+                'upvotes as user_has_downvoted' => function ($query): void {
+                    $query->where('user_id', '=', auth()->id())->where('upvote', '=', 0);
                 },
             ])
             ->latest()
@@ -57,15 +55,13 @@ class FeatureController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(FeatureRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'name' => ['required', 'string'],
-            'description' => ['nullable', 'string'],
-        ]);
-        $data['user_id'] = auth()->id();
+        $validatedData = $request->validated();
 
-        Feature::create($data);
+        $validatedData['user_id'] = auth()->id();
+
+        Feature::create($validatedData);
 
         return to_route('feature.index')->with('success', 'Feature created successfully.');
     }
@@ -102,14 +98,11 @@ class FeatureController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Feature $feature): RedirectResponse
+    public function update(FeatureRequest $request, Feature $feature): RedirectResponse
     {
-        $data = $request->validate([
-            'name' => ['required', 'string'],
-            'description' => ['nullable', 'string'],
-        ]);
+        $validatedData = $request->validated();
 
-        $feature->update($data);
+        $feature->update($validatedData);
 
         return to_route('feature.index')->with('success', 'Feature updated successfully.');
     }

@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use App\Models\Feature;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, Feature $feature): RedirectResponse
+    public function store(CommentRequest $request, Feature $feature): RedirectResponse
     {
-        $data = $request->validate([
-            'comment' => ['required'],
-        ]);
+        $validatedData = $request->validated();
 
-        $data['feature_id'] = $feature->id;
-        $data['user_id'] = auth()->user()->id;
-        Comment::create($data);
+        $validatedData['feature_id'] = $feature->id;
+        $validatedData['user_id'] = auth()->user()->id;
+        Comment::create($validatedData);
 
         return to_route('feature.show', $feature);
     }
