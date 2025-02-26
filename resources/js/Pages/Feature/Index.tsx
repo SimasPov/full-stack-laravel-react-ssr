@@ -1,11 +1,11 @@
 import FeatureItem from '@/Components/Feature/FeatureItem';
 import { can } from '@/helpers';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Feature } from '@/types';
+import { Feature, Pagination } from '@/types';
 import { Head, Link, usePage, WhenVisible } from '@inertiajs/react';
 import { useMemo } from 'react';
 
-export default function Index({ features, pagination }: { features: Feature[]; pagination: Record<string, any> }) {
+export default function Index({ features, pagination }: { features: Feature[]; pagination: Pagination }) {
     const reachedEnd = useMemo(() => {
         return pagination.current_page >= pagination.last_page;
     }, [pagination.current_page, pagination.last_page]);
@@ -36,7 +36,9 @@ export default function Index({ features, pagination }: { features: Feature[]; p
                     preserveUrl: true,
                     only: ['features', 'pagination'],
                 }}
-            ></WhenVisible>
+            >
+                <div></div>
+            </WhenVisible>
         </AuthenticatedLayout>
     );
 }

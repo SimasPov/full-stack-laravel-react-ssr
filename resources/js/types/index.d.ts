@@ -10,10 +10,26 @@ export interface User {
     roles: string[];
 }
 
-export type PaginatedData = {
-    data: Feature[];
-    links: Record<string, string>;
+export type Links = {
+    url: string;
+    label: string;
+    active: boolean;
 };
+
+export interface Pagination {
+    current_page: number;
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: Links[];
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+}
 
 export type Comment = {
     id: number;
